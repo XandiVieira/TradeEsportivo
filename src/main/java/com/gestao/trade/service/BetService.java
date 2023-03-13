@@ -83,6 +83,7 @@ public class BetService {
 
         dtos.forEach(betDtoRequest -> {
 
+            Long id = null;
             LocalDate date = null;
             String dayOfWeek = null;
             String homeTeam = null;
@@ -93,6 +94,10 @@ public class BetService {
             Float odd = null;
             BigDecimal liability = null;
             BigDecimal grossProfit = null;
+
+            if (betDtoRequest.getBetId() != null && !betDtoRequest.getBetId().isEmpty()) {
+                id = Long.valueOf(betDtoRequest.getBetId());
+            }
 
             if (betDtoRequest.getMarket() != null && !betDtoRequest.getMarket().isEmpty()) {
                 String[] parts = betDtoRequest.getMarket().split("/");
@@ -114,7 +119,7 @@ public class BetService {
             }
 
             if (betDtoRequest.getBidType() != null && !betDtoRequest.getBidType().isEmpty()) {
-                if (betDtoRequest.getBidType().equals("Apostar contra")) {
+                if (betDtoRequest.getBidType().equals("Contra")) {
                     backOrLay = "L";
                 } else {
                     backOrLay = "B";
@@ -142,7 +147,7 @@ public class BetService {
             if (betDtoRequest.getMatchedOdds() != null && !betDtoRequest.getMatchedOdds().isEmpty()) {
                 odd = Float.valueOf(betDtoRequest.getMatchedOdds());
             }
-            bets.add(new Bet(date, dayOfWeek, homeTeam, awayTeam, backOrLay, market, selection, odd, liability, grossProfit));
+            bets.add(new Bet(id, date, dayOfWeek, homeTeam, awayTeam, backOrLay, market, selection, odd, liability, grossProfit));
         });
         return bets;
     }

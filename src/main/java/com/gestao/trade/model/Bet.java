@@ -3,6 +3,7 @@ package com.gestao.trade.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -11,9 +12,11 @@ import java.time.LocalDate;
 @Table(name = "bets")
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class Bet {
 
-    public Bet(LocalDate date, String dayOfWeek, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit) {
+    public Bet(Long id, LocalDate date, String dayOfWeek, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit) {
+        this.id = id;
         this.date = date;
         this.dayOfWeek = dayOfWeek;
         this.homeTeam = homeTeam;
@@ -27,7 +30,6 @@ public class Bet {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate date;
     private String dayOfWeek;
