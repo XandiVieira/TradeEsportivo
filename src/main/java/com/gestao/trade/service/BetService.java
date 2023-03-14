@@ -9,9 +9,7 @@ import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -49,16 +47,23 @@ public class BetService {
 
         List<BetDtoRequest> dtos = new ArrayList<>();
 
-        CSVReader reader = new CSVReader(new InputStreamReader(is));
+        Reader reader = null; // specify the correct character encoding
         try {
-            reader.skip(1); // skip the header row
+            reader = new InputStreamReader(is, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        CSVReader csvReader = new CSVReader(reader);
+
+        try {
+            csvReader.skip(1); // skip the header row
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
 
         List<String[]> rows = null;
         try {
-            rows = reader.readAll();
+            rows = csvReader.readAll();
         } catch (IOException | CsvException ex) {
             throw new RuntimeException(ex);
         }
