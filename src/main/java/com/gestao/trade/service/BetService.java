@@ -10,12 +10,16 @@ import com.opencsv.exceptions.CsvException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,8 +37,7 @@ public class BetService {
 
         List<BetRequestDto> dtos = new ArrayList<>();
 
-        Reader reader; // specify the correct character encoding
-        reader = new InputStreamReader(is, StandardCharsets.UTF_8);
+        Reader reader = new InputStreamReader(is, StandardCharsets.UTF_8);
         CSVReader csvReader = new CSVReader(reader);
 
         try {
@@ -71,8 +74,7 @@ public class BetService {
         dtos.forEach(betRequestDto -> {
 
             Long id = null;
-            LocalDate date = null;
-            String dayOfWeek = null;
+            Long date = null;
             String homeTeam = null;
             String awayTeam = null;
             String backOrLay = null;
@@ -102,7 +104,6 @@ public class BetService {
 
             if (betRequestDto.getBetPlaced() != null && !betRequestDto.getBetPlaced().isEmpty()) {
                 date = convertDate(betRequestDto.getBetPlaced());
-                dayOfWeek = translateDayOfWeek(date.getDayOfWeek().name());
             }
 
             if (betRequestDto.getBidType() != null && !betRequestDto.getBidType().isEmpty()) {
@@ -134,25 +135,12 @@ public class BetService {
             if (betRequestDto.getMatchedOdds() != null && !betRequestDto.getMatchedOdds().isEmpty()) {
                 odd = Float.valueOf(betRequestDto.getMatchedOdds());
             }
-            bets.add(new Bet(id, date, dayOfWeek, homeTeam, awayTeam, backOrLay, market, selection, odd, liability, grossProfit));
+            bets.add(new Bet(id, date, homeTeam, awayTeam, backOrLay, market, selection, odd, liability, grossProfit));
         });
         return bets;
     }
 
-    public static String translateDayOfWeek(String dayOfWeek) {
-        return switch (dayOfWeek.toUpperCase()) {
-            case "SUNDAY" -> "Domingo";
-            case "MONDAY" -> "Segunda-feira";
-            case "TUESDAY" -> "Terça-feira";
-            case "WEDNESDAY" -> "Quarta-feira";
-            case "THURSDAY" -> "Quinta-feira";
-            case "FRIDAY" -> "Sexta-feira";
-            case "SATURDAY" -> "Sábado";
-            default -> throw new IllegalArgumentException("Invalid day of week: " + dayOfWeek);
-        };
-    }
-
-    private static LocalDate convertDate(String input) {
+    private static Long convertDate(String input) {
 
         if (input.contains("jan")) {
             input = input.replace("jan", "01");
@@ -180,21 +168,15 @@ public class BetService {
             input = input.replace("dez", "12");
         }
 
-        // Parse the input string into a LocalDate object
-        String[] onlyDate = input.split(" ");
-
-        // Define the formatter for the input string
-        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("dd-MM-yy");
-
-        // Parse the input string into a LocalDate object
-        LocalDate date = LocalDate.parse(onlyDate[0], inputFormatter);
-
-        // Convert the year to the 4-digit format
-        if (date.getYear() < 100) {
-            date = date.plusYears(100);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yy HH:mm");
+        Date date;
+        try {
+            date = dateFormat.parse(input);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
 
-        return date;
+        return date.getTime();
     }
 
     public List<BetResponseDto> getBets(String orderBy) {

@@ -1,12 +1,13 @@
 package com.gestao.trade.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Table(name = "bets")
@@ -15,10 +16,9 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class Bet {
 
-    public Bet(Long id, LocalDate date, String dayOfWeek, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit) {
+    public Bet(Long id, Long date, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit) {
         this.id = id;
         this.date = date;
-        this.dayOfWeek = dayOfWeek;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
         this.backOrLay = backOrLay;
@@ -31,8 +31,7 @@ public class Bet {
 
     @Id
     private Long id;
-    private LocalDate date;
-    private String dayOfWeek;
+    private Long date;
     private String championship;
     private String homeTeam;
     private String awayTeam;

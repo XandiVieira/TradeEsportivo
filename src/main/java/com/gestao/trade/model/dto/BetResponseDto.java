@@ -34,14 +34,14 @@ public class BetResponseDto {
     private String method;
     @JsonProperty("Odd")
     private Float odd;
-    @JsonProperty("Entrada")
+    @JsonProperty("Responsabilidade")
     private BigDecimal liability;
     @JsonProperty("Lucro Bruto")
     private BigDecimal grossProfit;
     @JsonProperty("Lucro líquido")
     private BigDecimal netProfit;
     @JsonProperty("ROI")
-    private Float returnOverInvestment;
-    @JsonProperty("Retorno sob a banca")
+    private String returnOverInvestment;
+    @JsonProperty("Retorno sobre a banca")
     private Float returnOverTotal;
 }
