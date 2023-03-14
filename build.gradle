@@ -28,6 +28,7 @@ dependencies {
 	implementation 'com.opencsv:opencsv:5.5.1'
 
 	implementation 'org.postgresql:postgresql'
+	implementation 'org.modelmapper:modelmapper:2.4.4'
 }
 
 tasks.named('test') {

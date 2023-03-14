@@ -3,7 +3,7 @@ package com.gestao.trade.model.dto;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class BetDtoRequest {
+public class BetRequestDto {
 
     private String market;
     private String selection;
@@ -17,7 +17,7 @@ public class BetDtoRequest {
     private String matchedOdds;
     private String profitLoss;
 
-    public BetDtoRequest(String market, String selection, String bidType, String betId, String betPlaced,
+    public BetRequestDto(String market, String selection, String bidType, String betId, String betPlaced,
                          String persistence, String requiredOdds, String stopLoss, String liability, String matchedOdds, String profitLoss) {
         this.market = market;
         this.selection = selection;
