@@ -41,7 +41,7 @@ public class BetResponseDto {
     @JsonProperty("Lucro líquido")
     private BigDecimal netProfit;
     @JsonProperty("ROI")
-    private String returnOverInvestment;
+    private String roi;
     @JsonProperty("Retorno sobre a banca")
     private Float returnOverTotal;
 }

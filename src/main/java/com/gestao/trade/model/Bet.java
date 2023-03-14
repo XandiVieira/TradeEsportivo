@@ -16,8 +16,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Bet {
 
-    public Bet(Long id, Long date, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit) {
+    public Bet(Long id, String dayOfWeek, Long date, String homeTeam, String awayTeam, String backOrLay, String market, String selection, Float odd, BigDecimal liability, BigDecimal grossProfit, BigDecimal netProfit, Float roi) {
         this.id = id;
+        this.dayOfWeek = dayOfWeek;
         this.date = date;
         this.homeTeam = homeTeam;
         this.awayTeam = awayTeam;
@@ -26,11 +27,14 @@ public class Bet {
         this.selection = selection;
         this.odd = odd;
         this.liability = liability;
+        this.netProfit = netProfit;
         this.grossProfit = grossProfit;
+        this.roi = roi;
     }
 
     @Id
     private Long id;
+    private String dayOfWeek;
     private Long date;
     private String championship;
     private String homeTeam;
@@ -42,4 +46,6 @@ public class Bet {
     private Float odd;
     private BigDecimal liability;
     private BigDecimal grossProfit;
+    private BigDecimal netProfit;
+    private Float roi;
 }
