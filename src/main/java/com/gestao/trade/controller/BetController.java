@@ -37,5 +37,4 @@ public class BetController {
     public Page<BetResponseDto> findBets(@ModelAttribute BetQueryParams queryParams) {
         return betService.findBets(queryParams);
     }
-
 }

@@ -78,5 +78,4 @@ public class BetService {
         Specification<Bet> spec = new BetSpecification(queryParams);
         return BetModelMapper.mapBetListToBetResponseDtoList(betRepository.findAll(spec, pageable));
     }
-
 }

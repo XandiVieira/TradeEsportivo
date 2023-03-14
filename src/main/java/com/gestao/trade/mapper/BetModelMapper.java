@@ -28,6 +28,7 @@ public class BetModelMapper {
     public static BetResponseDto mapBetToBetDtoResponse(Bet bet) {
         BetResponseDto response = modelMapper.map(bet, BetResponseDto.class);
         response.setDate(convertTimestampToString(bet.getDate()));
+        response.setRoi(bet.getRoi() + "0%");
         return response;
     }
 

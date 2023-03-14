@@ -22,6 +22,8 @@ public class BetQueryParams {
     private Float oddMax;
     private Float netProfitMin;
     private Float netProfitMax;
+    private Float liabilityMin;
+    private Float liabilityMax;
     private String team;
     private int pageSize = 10;
     private int pageNumber = 0;

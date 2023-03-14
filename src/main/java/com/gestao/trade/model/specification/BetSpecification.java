@@ -23,6 +23,8 @@ public class BetSpecification implements Specification<Bet> {
     private final Float oddMax;
     private final Float netProfitMin;
     private final Float netProfitMax;
+    private final Float liabilityMin;
+    private final Float liabilityMax;
     private final String team;
 
     public BetSpecification(BetQueryParams queryParams) {
@@ -38,6 +40,8 @@ public class BetSpecification implements Specification<Bet> {
         this.netProfitMin = queryParams.getNetProfitMin();
         this.netProfitMax = queryParams.getNetProfitMax();
         this.team = queryParams.getTeam();
+        this.liabilityMin = queryParams.getLiabilityMin();
+        this.liabilityMax = queryParams.getLiabilityMax();
     }
 
 
@@ -74,19 +78,35 @@ public class BetSpecification implements Specification<Bet> {
         }
 
         if (oddMin != null && oddMax != null) {
-            predicates.add(builder.between(root.get("roi"), oddMin, oddMax));
+            predicates.add(builder.between(root.get("odd"), oddMin, oddMax));
         } else if (oddMin != null) {
-            predicates.add(builder.greaterThanOrEqualTo(root.get("roi"), oddMin));
+            predicates.add(builder.greaterThanOrEqualTo(root.get("odd"), oddMin));
         } else if (oddMax != null) {
-            predicates.add(builder.lessThanOrEqualTo(root.get("roi"), oddMax));
+            predicates.add(builder.lessThanOrEqualTo(root.get("odd"), oddMax));
         }
 
         if (netProfitMin != null && netProfitMax != null) {
-            predicates.add(builder.between(root.get("roi"), netProfitMin, netProfitMax));
+            predicates.add(builder.between(root.get("netProfit"), netProfitMin, netProfitMax));
         } else if (netProfitMin != null) {
-            predicates.add(builder.greaterThanOrEqualTo(root.get("roi"), netProfitMin));
+            predicates.add(builder.greaterThanOrEqualTo(root.get("netProfit"), netProfitMin));
         } else if (netProfitMax != null) {
-            predicates.add(builder.lessThanOrEqualTo(root.get("roi"), netProfitMax));
+            predicates.add(builder.lessThanOrEqualTo(root.get("netProfit"), netProfitMax));
+        }
+
+        if (netProfitMin != null && netProfitMax != null) {
+            predicates.add(builder.between(root.get("netProfit"), netProfitMin, netProfitMax));
+        } else if (netProfitMin != null) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get("netProfit"), netProfitMin));
+        } else if (netProfitMax != null) {
+            predicates.add(builder.lessThanOrEqualTo(root.get("netProfit"), netProfitMax));
+        }
+
+        if (liabilityMin != null && liabilityMax != null) {
+            predicates.add(builder.between(root.get("liability"), liabilityMin, liabilityMax));
+        } else if (liabilityMin != null) {
+            predicates.add(builder.greaterThanOrEqualTo(root.get("liability"), liabilityMin));
+        } else if (liabilityMax != null) {
+            predicates.add(builder.lessThanOrEqualTo(root.get("liability"), liabilityMax));
         }
 
         if (team != null && !team.isEmpty()) {
